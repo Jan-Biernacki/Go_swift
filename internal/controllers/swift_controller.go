@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -20,7 +21,7 @@ func GetSwiftCode(c *gin.Context) {
 		return
 	}
 
-	// If it's a HQ, find branches
+	// If HQ, find branches
 	if result.IsHeadquarter {
 		prefix := result.SwiftCode[:8]
 		var branches []models.SwiftCode
@@ -36,7 +37,7 @@ func GetSwiftCode(c *gin.Context) {
 			"branches":      branches,
 		})
 	} else {
-		// If it's a branch, just return it
+		// If branch, just return it
 		c.JSON(http.StatusOK, result)
 	}
 }
@@ -76,17 +77,26 @@ func CreateSwiftCode(c *gin.Context) {
 
 // DELETE /v1/swift-codes/:swiftCode
 func DeleteSwiftCode(c *gin.Context) {
+	// Retrieve the swift code from the URL parameter.
 	code := c.Param("swiftCode")
-	bankName := c.Query("bankName")
-	iso2 := strings.ToUpper(c.Query("countryISO2"))
+	fmt.Printf("Attempting to delete record with swift code: '%s'\n", code)
 
 	var sc models.SwiftCode
-	// Check if record exists
-	err := repo.DB.Where("swift_code = ? AND bank_name = ? AND country_iso2 = ?", code, bankName, iso2).First(&sc).Error
-	if err != nil {
+	// Look up the record solely based on the swift code.
+	if err := repo.DB.Where("swift_code = ?", code).First(&sc).Error; err != nil {
+		// Log the error for debugging.
+		fmt.Printf("Record not found. Error: %v\n", err)
 		c.JSON(http.StatusNotFound, gin.H{"error": "No matching record found"})
 		return
 	}
-	repo.DB.Delete(&sc)
+
+	// Attempt deletion and check for errors.
+	if err := repo.DB.Delete(&sc).Error; err != nil {
+		fmt.Printf("Error deleting record: %v\n", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not delete swift code"})
+		return
+	}
+
+	fmt.Printf("Record with swift code '%s' deleted successfully.\n", code)
 	c.JSON(http.StatusOK, gin.H{"message": "Deleted"})
 }

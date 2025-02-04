@@ -63,12 +63,10 @@ func ParseCSV(filePath string) ([]ParsedSwift, error) {
 		if len(swiftCode) != 8 && len(swiftCode) != 11 {
 			return nil, fmt.Errorf("invalid swift code '%s': must be either 8 or 11 characters", swiftCode)
 		}
-		// row[2] = codeType
 		name := strings.TrimSpace(row[3])
 		address := strings.TrimSpace(row[4])
 		townName := strings.TrimSpace(row[5])
 		countryName := strings.ToUpper(strings.TrimSpace(row[6]))
-		// row[7] = timeZone
 
 		// Decide if it's HQ
 		isHQ := false
@@ -76,7 +74,7 @@ func ParseCSV(filePath string) ([]ParsedSwift, error) {
 			isHQ = true
 		}
 
-		// Combine address + town if you like:
+		// Combine address + town
 		fullAddress := address
 		if townName != "" {
 			fullAddress += ", " + townName

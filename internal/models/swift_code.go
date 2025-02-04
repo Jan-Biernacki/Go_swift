@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-// SwiftCode represents the structure of a SWIFT/BIC code record
+// SwiftCode represents the structure of a parsed data record.
 type SwiftCode struct {
 	gorm.Model
 	SwiftCode     string `gorm:"column:swift_code;uniqueIndex"`
