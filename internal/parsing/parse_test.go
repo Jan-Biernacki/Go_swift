@@ -17,7 +17,6 @@ type expectedRow struct {
 
 func TestParseCSV_MultipleRows(t *testing.T) {
 	// CSV content with header and four rows.
-	// Note: The header names don’t affect parsing since the first row is skipped.
 	csvContent := `COUNTRY ISO2 CODE,SWIFT CODE,CODE TYPE,NAME,ADDRESS,TOWN NAME,COUNTRY NAME,TIME ZONE
 AL,AAISALTRXXX,BIC11,UNITED BANK OF ALBANIA SH.A,"HYRJA 3 RR. DRITAN HOXHA ND. 11 TIRANA, TIRANA, 1023",TIRANA,ALBANIA,Europe/TiraneA
 AW,ARUBAWAXXXX,BIC11,"ARUBA BANK, LTD",CAMACURI 12  - ORANJESTAD ORANJESTAD-WEST AND ORANJESTAD-EAST,ORANJESTAD,ARUBA,America/Aruba
@@ -72,8 +71,7 @@ MT,TGAFMTM1001,BIC11,TGA FUNDS SICAV PLC,"  MRIEHEL, BIRKIRKARA",MRIEHEL,MALTA,E
 			countryISO2: "CL",
 			countryName: "CHILE",
 			bankName:    "BANCO INTERNACIONAL",
-			// The ADDRESS field is empty (after trimming) so the full address is a comma followed by the town name.
-			address: ", SANTIAGO",
+			address:     ", SANTIAGO",
 		},
 		{
 			swiftCode:   "TGAFMTM1001",
@@ -81,8 +79,7 @@ MT,TGAFMTM1001,BIC11,TGA FUNDS SICAV PLC,"  MRIEHEL, BIRKIRKARA",MRIEHEL,MALTA,E
 			countryISO2: "MT",
 			countryName: "MALTA",
 			bankName:    "TGA FUNDS SICAV PLC",
-			// The ADDRESS field ("  MRIEHEL, BIRKIRKARA") gets trimmed to "MRIEHEL, BIRKIRKARA" then appended with the town name.
-			address: "MRIEHEL, BIRKIRKARA, MRIEHEL",
+			address:     "MRIEHEL, BIRKIRKARA, MRIEHEL",
 		},
 	}
 
