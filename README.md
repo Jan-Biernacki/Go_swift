@@ -3,26 +3,27 @@
 This project implements a RESTful API for managing SWIFT (BIC) codes using Go, Gin, and PostgreSQL. It includes functionality for parsing SWIFT code data from a CSV file, storing it in a PostgreSQL database, and exposing endpoints for retrieving, creating, and deleting records.
 
 ## Project Structure
-go_swift/ 
-├── cmd/ 
-│ └── server/ 
-│ └── main.go # Application entry point 
-├── data/ 
-│ └── swift_codes.csv # CSV file with SWIFT code data 
-├── internal/ 
-│ ├── controllers/ 
-│ │ └── swift_controller.go # REST API endpoints 
-│ ├── models/ 
-│ │ └── swift_code.go # SWIFT code model (GORM) 
-│ ├── parsing/ 
-│ │ └── parse.go # CSV parsing logic 
-│ └── repositories/ 
-│ └── database.go # Database initialization and migrations 
-├── go.mod 
-├── go.sum 
-├── Dockerfile 
-├── docker-compose.yml 
-└── README.md
+    go_swift/
+    ├── cmd/
+    │   └── server/
+    │       └── main.go  # Application entry point
+    ├── data/
+    │   └── swift_codes.csv  # CSV file with SWIFT code data
+    ├── internal/
+    │   ├── controllers/
+    │   │   └── swift_controller.go  # REST API endpoints
+    │   ├── models/
+    │   │   └── swift_code.go  # SWIFT code model (GORM)
+    │   ├── parsing/
+    │   │   └── parse.go  # CSV parsing logic
+    │   └── repositories/
+    │       └── database.go  # Database initialization and migrations
+    ├── go.mod
+    ├── go.sum
+    ├── Dockerfile
+    ├── docker-compose.yml
+    └── README.md
+
 
 
 ## Requirements
