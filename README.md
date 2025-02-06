@@ -65,7 +65,7 @@ This command will build the application image, start the PostgreSQL container, a
 
     docker compose down
 
-6. Database veryfication : 
+6. Database veryfication (manual way to check whether the database contains records) : 
 
     docker exec -it go_swift-db-1 psql -U postgres -d swift_codes
 
@@ -73,7 +73,7 @@ This command will build the application image, start the PostgreSQL container, a
 
 7.  Endpoint usage example: 
 
-    Seek for non existing record :
+    Look for an existing record :
 
         http://localhost:8080/v1/swift-codes/AAISALTRXXX
 
@@ -88,7 +88,7 @@ This command will build the application image, start the PostgreSQL container, a
       }
 
 
-    Seek for non existing record : 
+    Look for non existing record : 
 
         curl http://localhost:8080/v1/swift-codes/MRINDJJDXXX
 
@@ -112,4 +112,9 @@ This command will build the application image, start the PostgreSQL container, a
     go test -v ./internal/parsing
 9. Integration test :  
     go test -v
+
+10. Remarks 
+
+    - Lack of variety of unit tests is caused by not using TDD since the beggining of the project, I will remember to use it in my future projects. Good lesson.
+    - There is a minor failsafe in regard to SWIFT codes, the program expects them to be 8 or 11 chars long. Eight char long code case is for a missinput in csv file assuming that somebody could copy the first 8 chars of a headquaters code negelecting the triple X at the end, hence if there is a code having just 8 chars it will be considered missinputed headquaters.
 
